@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.4.2.js"></script>
+    <style>
+        .stage,td,th{
+            border: 1px solid black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas1" width="1000" height="200"></canvas>
+<div>
+    <h1>方案</h1>
+    <table class="stage">
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>阶段</th>
+            <th>类型</th>
+            <th>时长</th>
+            <th>阶段间隔</th>
+            <th>开始</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>
+                <select>
+                    <option value="default">1</option>
+                    <option value="manual">2</option>
+                    <option value="manual">3</option>
+                </select>
+            </td>
+            <td>
+                <select>
+                    <option value="default">F</option>
+                    <option value="manual">T</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" value="30">
+            </td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>
+                <select>
+                    <option value="manual">1</option>
+                    <option value="default">2</option>
+                    <option value="manual">3</option>
+                </select>
+            </td>
+            <td>
+                <select>
+                    <option value="default">F</option>
+                    <option value="manual">T</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" value="30">
+            </td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>
+                <select>
+                    <option value="manual">1</option>
+                    <option value="manual">2</option>
+                    <option value="default">3</option>
+                </select>
+            </td>
+            <td>
+                <select>
+                    <option value="default">F</option>
+                    <option value="manual">T</option>
+                </select>
+            </td>
+            <td>
+                <input type="text" value="30">
+            </td>
+            <td>5</td>
+            <td>0</td>
+        </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+</div>
+<script type="text/javascript">
+    //获得画布元素
+    var canvas1 = document.getElementById("canvas1");
+    //获得2维绘图的上下文
+    var ctx = canvas1.getContext("2d");
+
+    //ajax获取数据
+    $.ajax({
+        type: "get",
+        url: "http://localhost:3003/test",
+        contentType: 'application/json',
+        dataType: "json",
+        success:function(data){
+            console.log(data);
+            fillDatas(data);
+        },
+        error:function(){
+            alert("加载资源失败");
+        }
+    });
+
+    //绘制图形
+    function fillDatas(rect_data) {
+        var cycle = 0;
+        var points = [];
+        for(var i in rect_data){
+            var d = rect_data[i];
+            cycle = d.g + d.s + cycle;
+        }
+        for(var i in rect_data){
+            var d = rect_data[i];
+            var p00 = (g/cycle)*1000;
+            var p01 = (s/cycle)*1000;
+            points.push(
+                {"x00":0,"y00":30*i,"w":1000,"h":30},
+            );
+        }
+        for(var i in points){
+            var p = points[i];
+            ctx.fillStyle="#f00";
+            ctx.fillRect(p.x00,p.y00,p.w,p.h);
+        }
+
+    }
+
+
+</script>
+</body>
+</html>
