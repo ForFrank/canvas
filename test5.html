@@ -103,7 +103,7 @@
     //ajax获取数据
     $.ajax({
         type: "get",
-        url: "http://localhost:3003/test",
+        url: "http://localhost:3003/test3",
         contentType: 'application/json',
         dataType: "json",
         success:function(data){
@@ -115,28 +115,48 @@
         }
     });
 
+
     //绘制图形
     function fillDatas(rect_data) {
-        var cycle = 0;
+        var cycle = 100;
         var points = [];
-        for(var i in rect_data){
+        /*for(var i in rect_data){
             var d = rect_data[i];
-            cycle = d.g + d.s + cycle;
-        }
+            cycle = d.green + d.stage_time + cycle;
+        }*/
+        var p10 = 0;
+        var p11 = 0;
         var p00 = 0;
         var p01 = 0;
         var p0 = 0;
-        for(var i=0; i < rect_data.length; i++){
+        var pn = 0;
+        var ps = 0;
+        var all_stage = [];
+        p0 = p00 + p01 - p10 - p11;
+        for(var i=0; i < rect_data.length; i++) {
+            all_stage.push(rect_data[i].stage);
+        }
+        console.log(all_stage);
+        for(var i=0; i < rect_data.length; i++) {
             var d = rect_data[i];
-            var p10 = (d.g/cycle)*1000;
-            var p11 = (d.s/cycle)*1000;
-            p00 = (d.g/cycle)*1000 + p00;
-            p01 = (d.s/cycle)*1000 + p01;
-            p0 = p00 + p01 - p10 - p11;
+            var as = all_stage[i-1];
+            pn = d.stage;
+            ps = p0 + ps;
+            var p10 = (d.green/cycle)*1000;
+            var p11 = (d.stage_time/cycle)*1000;
+            if (pn === as) {
+                p00 = (d.green/cycle)*1000;
+                p01 = (d.stage_time/cycle)*1000;
+                p0 = p00 + p01 - p10 - p11;
+            } else {
+                p00 = (d.green/cycle)*1000 + p00;
+                p01 = (d.stage_time/cycle)*1000 + p01;
+                p0 = p00 + p01 - p10 - p11;
+            }
             points.push(
                 {"x00":0,"y00":50*i,"w00":1000,"h00":30},
-                {"x01":p0,"y01":50*i,"w01":p10,"h01":30},
-                {"x02":p0 + p10,"y02":50*i,"w02":p11,"h02":30}
+                {"x01":ps,"y01":50*i,"w01":p10,"h01":30},
+                {"x02":ps + p10,"y02":50*i,"w02":p11,"h02":30}
             );
         }
         console.log(points);
