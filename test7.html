@@ -9,10 +9,13 @@
             border: 1px solid black;
             text-align: center;
         }
+        canvas{
+            border:1px solid #000000;
+        }
     </style>
 </head>
 <body>
-<canvas id="canvas1" width="1000" height="500"></canvas>
+<canvas id="canvas1" width="1500" height="200"></canvas>
 <div>
     <h1>方案</h1>
     <table class="stage">
@@ -103,11 +106,11 @@
     //ajax获取数据
     $.ajax({
         type: "get",
-        url: "http://localhost:3003/test3",
+        url: "http://localhost:3003/canvastest",
         contentType: 'application/json',
         dataType: "json",
         success:function(data){
-            console.log(data);
+            console.log(data)
             fillDatas(data);
         },
         error:function(){
@@ -115,61 +118,31 @@
         }
     });
 
-
     //绘制图形
-    function fillDatas(rect_data) {
-        var cycle = 100;
-        var points = [];
-        /*for(var i in rect_data){
-            var d = rect_data[i];
-            cycle = d.green + d.stage_time + cycle;
-        }*/
-        var p10 = 0;
-        var p11 = 0;
-        var p00 = 0;
-        var p01 = 0;
-        var p0 = 0;
-        var pn = 0;
-        var ps = 0;
-        var all_stage = [];
-        p0 = p00 + p01 - p10 - p11;
-        for(var i=0; i < rect_data.length; i++) {
-            all_stage.push(rect_data[i].stage);
-        }
-        console.log(all_stage);
-        for(var i=0; i < rect_data.length; i++) {
-            var d = rect_data[i];
-            var as = all_stage[i-1];
-            pn = d.stage;
-            ps = p0 + ps;
-            var p10 = (d.green/cycle)*1000;
-            var p11 = (d.stage_time/cycle)*1000;
-            if (pn === as) {
-                p00 = (d.green/cycle)*1000;
-                p01 = (d.stage_time/cycle)*1000;
-                p0 = p00 + p01 - p10 - p11;
-            } else {
-                p00 = (d.green/cycle)*1000 + p00;
-                p01 = (d.stage_time/cycle)*1000 + p01;
-                p0 = p00 + p01 - p10 - p11;
-            }
-            points.push(
-                {"x00":0,"y00":50*i,"w00":1000,"h00":30},
-                {"x01":ps,"y01":50*i,"w01":p10,"h01":30},
-                {"x02":ps + p10,"y02":50*i,"w02":p11,"h02":30}
-            );
-        }
-        console.log(points);
-        for(var i in points){
-            var p = points[i];
-            ctx.fillStyle="#f00";
-            ctx.fillRect(p.x00,p.y00,p.w00,p.h00);
-            ctx.fillStyle="#0f0";
-            ctx.fillRect(p.x01,p.y01,p.w01,p.h01);
-            ctx.fillStyle="#ff0";
-            ctx.fillRect(p.x02,p.y02,p.w02,p.h02);
-        }
+    function draw(x){
+        ctx.beginPath();
+        ctx.fillStyle="red";
+        ctx.fillRect(x,0,50,50);
     }
+    var x=0;
+    var speedx = 1;
+    draw(x);
+    function act(){
+        //清除画布
+        ctx.clearRect(0,0,canvas1.width,canvas1.height);
+        //更新位置
+        x +=speedx;
+        // 重绘
+        draw(x);
+        //当x位置小于等于0或大于等于canvas画布的宽度减去方块的宽度
+        if(x<=0 || x>canvas1.width-50){
+            speedx *=-1;
+        }
+        window.requestAnimationFrame(act);
+    }
+    //执行动画
+    act();
+
 
 </script>
 </body>

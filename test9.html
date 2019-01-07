@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.4.2.js"></script>
+</head>
+<style type="text/css">
+    .row{
+        width: 1000px;
+        height: 400px;
+        border: 1px solid;
+        box-shadow:2px 2px 2px #000;
+        overflow: hidden;
+    }
+    .box{
+        position: relative;
+    }
+    .box1,.box2{
+        width: 1000px;
+        position: absolute;
+    }
+    .box2{
+        left:1000px;
+    }
+    img{
+        float: left;
+    }
+</style>
+<body>
+<div class="row">
+    <div class="box" id="box">
+        <div class="box1" id="box1">
+            <canvas id="canvas1" width="1000" height="500"></canvas>
+        </div>
+        <div class="box2" id="box2">
+            <canvas id="canvas2" width="1000" height="500"></canvas>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    //获得画布元素
+    var canvas1 = document.getElementById("canvas1");
+    //获得2维绘图的上下文
+    var ctx = canvas1.getContext("2d");
+
+    //获得画布元素
+    var canvas2 = document.getElementById("canvas2");
+    //获得2维绘图的上下文
+    var ctx2 = canvas2.getContext("2d");
+
+    //ajax获取数据
+    $.ajax({
+        type: "get",
+        url: "http://localhost:3003/test3",
+        contentType: 'application/json',
+        dataType: "json",
+        success:function(data){
+            console.log(data);
+            fillData1(data);
+            fillData2(data);
+        },
+        error:function(){
+            alert("加载资源失败");
+        }
+    });
+
+
+    //绘制图形
+    function fillData1(rect_data) {
+        var cycle = 100;
+        var points = [];
+        /*for(var i in rect_data){
+            var d = rect_data[i];
+            cycle = d.green + d.stage_time + cycle;
+        }*/
+        var p10 = 0;
+        var p11 = 0;
+        var p00 = 0;
+        var p01 = 0;
+        var p0 = 0;
+        var pn = 0;
+        var ps = 0;
+        var all_stage = [];
+        p0 = p00 + p01 - p10 - p11;
+        for(var i=0; i < rect_data.length; i++) {
+            all_stage.push(rect_data[i].stage);
+        }
+        for(var i=0; i < rect_data.length; i++) {
+            var d = rect_data[i];
+            var p10 = (d.green/cycle)*1000;
+            var p11 = (d.stage_time/cycle)*1000;
+            pn = d.stage;
+            if (pn === 1) {
+                p00 = (d.green/cycle)*1000;
+                p01 = (d.stage_time/cycle)*1000;
+                p0 = p00 + p01 - p10 - p11;
+            } else {
+                var as = all_stage[i-1];
+                if (pn === as) {
+                    p00 = (d.green/cycle)*1000;
+                    p01 = (d.stage_time/cycle)*1000;
+                    p0 = p00 + p01 - p10 - p11;
+                } else {
+                    p00 = (d.green/cycle)*1000 + p00;
+                    p01 = (d.stage_time/cycle)*1000 + p01;
+                    p0 = p00 + p01 - p10 - p11;
+                }
+            }
+            ps = p0 + ps;
+            points.push(
+                {"x00":0,"y00":50*i,"w00":1000,"h00":30},
+                {"x01":ps,"y01":50*i,"w01":p10,"h01":30},
+                {"x02":ps + p10,"y02":50*i,"w02":p11,"h02":30}
+            );
+        }
+        console.log(points);
+        for(var i in points){
+            var p = points[i];
+            ctx.fillStyle="#f00";
+            ctx.fillRect(p.x00,p.y00,p.w00,p.h00);
+            ctx.fillStyle="#0f0";
+            ctx.fillRect(p.x01,p.y01,p.w01,p.h01);
+            ctx.fillStyle="#ff0";
+            ctx.fillRect(p.x02,p.y02,p.w02,p.h02);
+        }
+    }
+    function fillData2(rect_data) {
+        var cycle = 100;
+        var points = [];
+        /*for(var i in rect_data){
+            var d = rect_data[i];
+            cycle = d.green + d.stage_time + cycle;
+        }*/
+        var p10 = 0;
+        var p11 = 0;
+        var p00 = 0;
+        var p01 = 0;
+        var p0 = 0;
+        var pn = 0;
+        var ps = 0;
+        var all_stage = [];
+        p0 = p00 + p01 - p10 - p11;
+        for(var i=0; i < rect_data.length; i++) {
+            all_stage.push(rect_data[i].stage);
+        }
+        for(var i=0; i < rect_data.length; i++) {
+            var d = rect_data[i];
+            var p10 = (d.green/cycle)*1000;
+            var p11 = (d.stage_time/cycle)*1000;
+            pn = d.stage;
+            if (pn === 1) {
+                p00 = (d.green/cycle)*1000;
+                p01 = (d.stage_time/cycle)*1000;
+                p0 = p00 + p01 - p10 - p11;
+            } else {
+                var as = all_stage[i-1];
+                if (pn === as) {
+                    p00 = (d.green/cycle)*1000;
+                    p01 = (d.stage_time/cycle)*1000;
+                    p0 = p00 + p01 - p10 - p11;
+                } else {
+                    p00 = (d.green/cycle)*1000 + p00;
+                    p01 = (d.stage_time/cycle)*1000 + p01;
+                    p0 = p00 + p01 - p10 - p11;
+                }
+            }
+            ps = p0 + ps;
+            points.push(
+                {"x00":0,"y00":50*i,"w00":1000,"h00":30},
+                {"x01":ps,"y01":50*i,"w01":p10,"h01":30},
+                {"x02":ps + p10,"y02":50*i,"w02":p11,"h02":30}
+            );
+        }
+        for(var i in points){
+            var p = points[i];
+            ctx2.fillStyle="#f00";
+            ctx2.fillRect(p.x00,p.y00,p.w00,p.h00);
+            ctx2.fillStyle="#0f0";
+            ctx2.fillRect(p.x01,p.y01,p.w01,p.h01);
+            ctx2.fillStyle="#ff0";
+            ctx2.fillRect(p.x02,p.y02,p.w02,p.h02);
+        }
+    }
+    window.onload = function(){
+        var _box1 = document.getElementById("box1");
+        var _box2 = document.getElementById("box2");
+        var x = 0;
+        var fun = function(){
+            _box1.style.left = x + 'px';
+            _box2.style.left = (x +1000) + 'px';
+            x--;
+            if((x +1000) == 0){
+                x = 0;
+            }
+        }
+        setInterval(fun,20);
+    }
+</script>
+</html>
