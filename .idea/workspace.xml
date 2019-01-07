@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="22ece81f-977e-41c7-a667-4bc5498272bc" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/imaages/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imaages/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imaages/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imaages/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imaages/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test6.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test7.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test8.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test5.html" beforeDir="false" afterPath="$PROJECT_DIR$/test5.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imaages/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imaages/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imaages/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imaages/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imaages/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/5.png" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -217,16 +211,15 @@
       <workItem from="1546559965608" duration="27114000" />
       <workItem from="1546652616367" duration="11616000" />
       <workItem from="1546742576781" duration="17061000" />
-      <workItem from="1546820725788" duration="18049000" />
+      <workItem from="1546820725788" duration="18645000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80362000" />
+    <option name="totallyTimeSpent" value="80958000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-1080" width="974" height="1057" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12734865" />
       <window_info anchor="bottom" id="TODO" order="6" />
