@@ -116,6 +116,7 @@
     </table>
 </div>
 <script type="text/javascript">
+
     //获得画布元素
     var canvas1 = document.getElementById("canvas1");
     //获得2维绘图的上下文
@@ -145,42 +146,31 @@
             var d = rect_data[i];
             cycle = d.green + d.stage_time + cycle;
         }*/
-        var p10 = 0;
-        var p11 = 0;
-        var p00 = 0;
-        var p01 = 0;
         var p0 = 0;
         var pn = 0;
         var ps = 0;
         var all_stage = [];
         var all_gs = [];
-        p0 = p00 + p01 - p10 - p11;
         for(var i=0; i < rect_data.length; i++) {
             all_stage.push(rect_data[i].stage);
-            all_gs.push(rect_data[i].green + rect_data[i].stage_time);
+            all_gs.push((rect_data[i].green/cycle)*1000
+                + (rect_data[i].stage_time/cycle)*1000);
         }
-        var some_stage = [];
         for(var i=0; i < rect_data.length; i++) {
             var d = rect_data[i];
             var p10 = (d.green/cycle)*1000;
             var p11 = (d.stage_time/cycle)*1000;
             pn = d.stage;
-            some_stage.push(all_stage[i]);
             if (pn === 1) {
-                p00 = (d.green/cycle)*1000;
-                p01 = (d.stage_time/cycle)*1000;
-                p0 = p00 + p01 - p10 - p11;
+                p0 = 0;
                 console.log(1)
             } else {
                 var as = all_stage[i-1];
+                var gs = all_gs[i-1];
                 if (pn === as) {
-                    p00 = (d.green/cycle)*1000;
-                    p01 = (d.stage_time/cycle)*1000;
-                    p0 = p00 + p01 - p10 - p11;
+                    p0 = 0;
                 } else {
-                    p00 = (d.green/cycle)*1000 + p10;
-                    p01 = (d.stage_time/cycle)*1000 + p11;
-                    p0 = p00 + p01 - p10 - p11;
+                    p0 = gs;
                 }
                 console.log(pn,as,i)
             }
