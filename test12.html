@@ -122,92 +122,22 @@
     var canvas1 = document.getElementById("canvas1");
     //获得2维绘图的上下文
     var ctx = canvas1.getContext("2d");
-
-    //ajax获取数据
-    $.ajax({
-        type: "get",
-        url: "http://localhost:3003/test3",
-        contentType: 'application/json',
-        dataType: "json",
-        success:function(data){
-            console.log(data);
-            fillDatas(data);
-        },
-        error:function(){
-            alert("加载资源失败");
+    var realtime = [];
+    var w01 = 0;
+    var fun = function(){
+        w01 = 10 + w01;
+        for(var i=0; i<9; i++){
+            realtime.push({"x01":0,"y01":50*i,"w01":w01,"h01":30})
         }
-    });
-    //绘制图形
-    function fillDatas(rect_data) {
-        var cycle = 0;
-        var points = [];
-        var p0 = 0;
-        var pn = 0;
-        var ps = 0;
-        var cycle_p0 =0;
-        var all_stage = [];
-        var all_gs = [];
-        for(var i=0; i < rect_data.length; i++) {
-            all_stage.push(rect_data[i].stage);
-        }
-        for(var i in rect_data){
-            var d = rect_data[i];
-            if (d.stage === 1) {
-                cycle_p0 = d.green + d.stage_time;
-            } else {
-                var as = all_stage[i-1];
-                if (d.stage === as) {
-                    cycle_p0 = 0;
-                } else {
-                    cycle_p0 = d.green + d.stage_time;
-                }
-            }
-            cycle = cycle_p0 + cycle;
-        }
-        for(var i=0; i < rect_data.length; i++) {
-            all_gs.push((rect_data[i].green/cycle)*1000
-                + (rect_data[i].stage_time/cycle)*1000);
-        }
-        for(var i=0; i < rect_data.length; i++) {
-            var d = rect_data[i];
-            var p10 = (d.green/cycle)*1000;
-            var p11 = (d.stage_time/cycle)*1000;
-            pn = d.stage;
-            if (pn === 1) {
-                p0 = 0;
-                console.log(1)
-            } else {
-                var as = all_stage[i-1];
-                var gs = all_gs[i-1];
-                if (pn === as) {
-                    p0 = 0;
-                } else {
-                    p0 = gs;
-                }
-                console.log(pn,as,i,cycle,gs)
-            }
-            ps = p0 + ps;
-            points.push(
-                {"编号":i},
-                {"x00":0,"y00":50*i,"w00":1000,"h00":30},
-                {"x01":ps,"y01":50*i,"w01":p10,"h01":30},
-                {"x02":ps + p10,"y02":50*i,"w02":p11,"h02":30}
-            );
-        }
-        console.log(points);
-        for(var i in points){
-            var p = points[i];
+        for(var i in realtime){
+            var p = realtime[i];
             ctx.fillStyle="#f00";
-            ctx.fillRect(p.x00,p.y00,p.w00,p.h00);
-            ctx.fillStyle="#0f0";
             ctx.fillRect(p.x01,p.y01,p.w01,p.h01);
-            ctx.fillStyle="#ff0";
-            ctx.fillRect(p.x02,p.y02,p.w02,p.h02);
-            ctx.fillStyle="black";
-            ctx.fillText(rect_data[i].phase,)
         }
-    }
-
+        console.log(w01);
+    };
+    setInterval(fun,1000);
+    console.log(realtime);
 </script>
 </body>
 </html>

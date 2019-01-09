@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.4.2.js"></script>
+    <style>
+        .row{
+            width: 1000px;
+            height: 400px;
+            border: 1px solid;
+            box-shadow:2px 2px 2px #000;
+            position: relative;
+        }
+        table{
+            float: right;
+        }
+        td{
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <table id="phase1">
+    </table>
+</div>
+<button type="button" onclick="displayResult()">删除一列</button>
+<script>
+    var b = [];
+    var c = 0;
+    var fun = function(){
+        c = c + 1;
+        $.ajax({
+            type: "get",
+            url: "http://localhost:3003/test",
+            contentType: 'application/json',
+            dataType: "json",
+            success:function(data){
+                fillDatas(data);
+                fillDatas1(data);
+            },
+            error:function(){
+                alert("加载资源失败");
+            }
+        });
+        function fillDatas(test_data) {
+                b.push(test_data);
+        }
+        if (b.length > 10) {
+            b.shift();
+        }
+        console.log(b);
+        console.log(c);
+        function fillDatas1(test_data1) {
+            console.log("-----------------");
+            console.log(test_data1);
+            console.log("-----------------");
+            var cols = b.length;
+            var rows = test_data1.length; //行
+            var htmlstr="<tr>";
+            for (var i=0; i < rows; i++) {
+                for(var j=0;j<=cols;j++){
+                    var state = test_data1[i].g;
+                    if (state === 1) {
+                        htmlstr+="<td  style='background:#f00'></td>";
+                    } else {
+                        htmlstr+="<td  style='background:#0f0'></td>";
+                    }
+                }
+                htmlstr+="</tr>";
+            }
+            document.getElementById('phase1').innerHTML = htmlstr;
+        }
+    };
+    setInterval(fun,5000);
+</script>
+</body>
+</html>
