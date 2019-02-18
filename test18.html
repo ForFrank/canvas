@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.4.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(e) {
+            sex();
+
+        });
+        function sex(){
+            //var sex = $().val();
+            $.ajax({
+                url:"http://localhost:3003/test5",                                                      //1.从数据库获取相对应的value值,一般登录状态下对应的用户名都存了session
+                //async:false,
+                type:"get",
+                dataType:"json",
+                success: function(data){
+                    console.log(data[0]);
+                    /*$("#sex option[value='']").removeAttr("selected");               //2.移除默认选项的选中状态  removeAttr("selected")
+                    $("#sex option[value='"+data[0].value+"']").attr("selected","selected");*/  //3.根据ajax返回的value值来动态选中相对应选项。
+                    $.each(data[0],function(key,item){
+                        $("#"+key+" option[value='']").removeAttr("selected");               //2.移除默认选项的选中状态  removeAttr("selected")
+                        $("#"+key+" option[value='"+item+"']").attr("selected","selected");
+                    })
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<span>性别</span>
+<select id="sex1" name="sex" >
+    <option selected="selected" value="">请选择</option>  //默认选项为请选择
+    <option value="1">男</option>
+    <option value="0">女</option>
+</select>
+<select id="sex2" name="sex" >
+    <option selected="selected" value="">请选择</option>  //默认选项为请选择
+    <option value="1">男</option>
+    <option value="0">女</option>
+</select>
+<select id="sex3" name="sex" >
+    <option selected="selected" value="">请选择</option>  //默认选项为请选择
+    <option value="1">男</option>
+    <option value="0">女</option>
+</select>
+
+</body>
+</html>

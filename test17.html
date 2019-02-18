@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.4.2.js"></script>
+    <style>
+        li{
+            float: left;
+            border: #ccc;
+            background: #ccc;
+            padding: 5px;
+            margin-right: 12px;
+            margin-bottom: 10px;
+            font-size: 25px;
+            list-style: none;
+        }
+    </style>
+    <script>
+        $.ajax({
+            type: "get",
+            url: "http://localhost:3003/test4",
+            contentType: 'application/json',
+            dataType: "json",
+            success:function(data){
+                console.log(data);
+                single(data);
+            },
+            error:function(){
+                alert("加载资源失败");
+            }
+        });
+        function single(single_data) {
+            $.each(single_data[0],function(key,item){
+                switch (item)
+                {
+                    case "T":
+                        document.getElementById(key).style.background = "#0f0";
+                        break;
+                    case "F":
+                        document.getElementById(key).style.background = "#ccc";
+                        break;
+                }
+                document.getElementById("s06").innerText = item;
+            })
+        }
+    </script>
+</head>
+<body>
+<ul class="channel-top">
+    <li id="s01">运行正常</li>
+    <li id="s02">GPS</li>
+    <li id="s03">中心对时</li>
+    <li id="s04">同步</li>
+    <li id="s05">大灯开</li>
+    <li id="s06">2019-01-19 19:23:18</li>
+</ul>
+</body>
+</html>
